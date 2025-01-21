@@ -1,0 +1,39 @@
+{
+    "name": "jaeger-1.32-mysql",
+    "traceId": "980ef9a7db1902e55d6ecb9cc7583de4",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730960035366000000,
+                    "duration": 1852569000,
+                    "serviceName": "stuck-demo-tomcat",
+                    "name": "GET /db/query",
+                    "spanId": "e71d73f777cfd371",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730960037021003000,
+                    "duration": 75991000,
+                    "serviceName": "stuck-demo-tomcat",
+                    "name": "SELECT test.weather",
+                    "spanId": "8fc2daaf77bea002",
+                    "pSpanId": "8d6cd27df0e8ec22",
+                    "kind": 3,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "db.connection_string": "mysql://localhost:3306",
+                        "db.statement": "select count(?) from weather where temp_hi>?"
+                    }
+                }
+            ]
+        }
+    ]
+}

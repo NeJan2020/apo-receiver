@@ -1,0 +1,120 @@
+{
+    "name": "jaeger-1.32-rabbitmq",
+    "traceId": "a6c3cd444a274b255281c06ab2985844",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730960812556000000,
+                    "duration": 1070014000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "GET /send",
+                    "spanId": "324b786fe2671286",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730960813466295000,
+                    "duration": 25553000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "exchange.declare",
+                    "spanId": "9b66d2e28e385c39",
+                    "pSpanId": "d47533ea77bf41e8",
+                    "kind": 3,
+                    "code": 0
+                },
+                {
+                    "startTime": 1730960813492201000,
+                    "duration": 11396000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "exchange.declare",
+                    "spanId": "3a6901e2be0434b7",
+                    "pSpanId": "d47533ea77bf41e8",
+                    "kind": 3,
+                    "code": 0
+                },
+                {
+                    "startTime": 1730960813503879000,
+                    "duration": 12760000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "queue.declare",
+                    "spanId": "a20d6ff06c99e346",
+                    "pSpanId": "d47533ea77bf41e8",
+                    "kind": 3,
+                    "code": 0
+                },
+                {
+                    "startTime": 1730960813517662000,
+                    "duration": 15322000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "queue.bind",
+                    "spanId": "84b2ae986bcf3c72",
+                    "pSpanId": "d47533ea77bf41e8",
+                    "kind": 3,
+                    "code": 0
+                },
+                {
+                    "startTime": 1730960813541202000,
+                    "duration": 7558000,
+                    "serviceName": "rabbitmq-provider",
+                    "name": "TestDirectExchange publish",
+                    "spanId": "e78c558dea0d71fc",
+                    "pSpanId": "d47533ea77bf41e8",
+                    "nextSpanId": "98ae389821b7236c",
+                    "kind": 4,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "messaging.message.payload_size_bytes": "188"
+                    }
+                }
+            ],
+            "children":
+            [
+                {
+                    "entrySpans":
+                    [
+                        {
+                            "startTime": 1730960816622000000,
+                            "duration": 395000,
+                            "serviceName": "rabbitmq-consumer",
+                            "name": "TestDirectQueue process",
+                            "spanId": "ba4a05d889e68860",
+                            "pSpanId": "e78c558dea0d71fc",
+                            "kind": 5,
+                            "code": 0,
+                            "attributes":
+                            {
+                                "messaging.message.payload_size_bytes": "188"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "entrySpans":
+                    [
+                        {
+                            "startTime": 1730960816635000000,
+                            "duration": 55020000,
+                            "serviceName": "rabbitmq-consumer",
+                            "name": "TestDirectRouting process",
+                            "spanId": "98ae389821b7236c",
+                            "pSpanId": "e78c558dea0d71fc",
+                            "kind": 5,
+                            "code": 0,
+                            "attributes":
+                            {
+                                "messaging.message.payload_size_bytes": "0"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

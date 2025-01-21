@@ -1,0 +1,24 @@
+// ebpf manage proto
+// must sync with ebpf-agent/protos/kindling_ebpf_manage.proto
+syntax = "proto3";
+
+option go_package = ".;model";
+
+package kindling;
+
+message FileRequest {
+    string agent_version = 1;
+    string os_version = 2;
+    string kernel_version = 3;
+    string os_distribution = 4;
+    string arch = 5;
+}
+
+message FileResponse {
+    bytes file_content = 1;
+    string file_name = 2;
+}
+
+service FileService {
+    rpc GetFile(FileRequest) returns (FileResponse);
+}

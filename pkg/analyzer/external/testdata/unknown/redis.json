@@ -1,0 +1,38 @@
+{
+    "name": "jaeger-1.32-redis",
+    "traceId": "32382b5a3439ac46a2aa1e58961ba3d4",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730961964347000000,
+                    "duration": 2303351000,
+                    "serviceName": "stuck-demo-tomcat",
+                    "name": "GET /redis/query",
+                    "spanId": "4f6fa1492b50ef13",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730961966521214000,
+                    "duration": 5908000,
+                    "serviceName": "stuck-demo-tomcat",
+                    "name": "SET",
+                    "spanId": "c0067407d121c5a7",
+                    "pSpanId": "0e6a735f2bf15860",
+                    "kind": 3,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "db.statement": "SET aa ?"
+                    }
+                }
+            ]
+        }
+    ]
+}

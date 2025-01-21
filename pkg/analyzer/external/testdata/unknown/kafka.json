@@ -1,0 +1,65 @@
+{
+    "name": "jaeger-1.32-kafka",
+    "traceId": "1afe617bebe06a85c3f0e30d4851cd44",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730961482039000000,
+                    "duration": 12163000,
+                    "serviceName": "kafka-provider",
+                    "name": "GET /send",
+                    "spanId": "be7dd55ce5119c62",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730961482041553000,
+                    "duration": 17667000,
+                    "serviceName": "kafka-provider",
+                    "name": "topic_login publish",
+                    "spanId": "99aa616b8e73d37a",
+                    "pSpanId": "dceb512b0bb37afd",
+                    "nextSpanId": "0bbaca1352d8993a",
+                    "kind": 4,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "messaging.kafka.destination.partition": "2",
+                        "messaging.kafka.message.offset": "0"
+                    }
+                }
+            ],
+            "children":
+            [
+                {
+                    "entrySpans":
+                    [
+                        {
+                            "startTime": 1730961482061000000,
+                            "duration": 1434000,
+                            "serviceName": "kafka-consumer",
+                            "name": "topic_login process",
+                            "spanId": "0bbaca1352d8993a",
+                            "pSpanId": "99aa616b8e73d37a",
+                            "kind": 5,
+                            "code": 0,
+                            "attributes":
+                            {
+                                "messaging.kafka.consumer.group": "group1",
+                                "messaging.kafka.destination.partition": "2",
+                                "messaging.kafka.message.offset": "0",
+                                "messaging.message.payload_size_bytes": "80"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

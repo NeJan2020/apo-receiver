@@ -1,0 +1,57 @@
+{
+    "name": "jaeger-1.32-dubbo",
+    "traceId": "1dea5a0ef5251923406320277ce2dc11",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730959641255000000,
+                    "duration": 1575944000,
+                    "serviceName": "dubbo-consumer",
+                    "name": "GET /dubbo/{sleepA}/{sleepB}/{sleepC}",
+                    "spanId": "1b2a511ffcb6ad86",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730959641752503000,
+                    "duration": 965725000,
+                    "serviceName": "dubbo-consumer",
+                    "name": "io.apo.dubbo.api.service.OrderService/order2",
+                    "spanId": "c33eeea5038d5daa",
+                    "pSpanId": "721ba04854c1c4bd",
+                    "nextSpanId": "7e07b2ece6a18a58",
+                    "kind": 3,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "url.full": "dubbo://localhost:30002/io.apo.dubbo.api.service.OrderService.order2"
+                    }
+                }
+            ],
+            "children":
+            [
+                {
+                    "entrySpans":
+                    [
+                        {
+                            "startTime": 1730959642414000000,
+                            "duration": 178411000,
+                            "serviceName": "dubbo-provider",
+                            "name": "io.apo.dubbo.api.service.OrderService/order2",
+                            "spanId": "7e07b2ece6a18a58",
+                            "pSpanId": "c33eeea5038d5daa",
+                            "kind": 2,
+                            "code": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

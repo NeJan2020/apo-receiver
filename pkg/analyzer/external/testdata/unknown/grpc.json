@@ -1,0 +1,57 @@
+{
+    "name": "jaeger-1.32-grpc",
+    "traceId": "1e1418b37e01f916c21a3535da3b6600",
+    "services":
+    [
+        {
+            "entrySpans":
+            [
+                {
+                    "startTime": 1730960379971000000,
+                    "duration": 2550287000,
+                    "serviceName": "grpc-client",
+                    "name": "POST /grpc",
+                    "spanId": "1c298dd6fda802e0",
+                    "kind": 2,
+                    "code": 0
+                }
+            ],
+            "exitSpans":
+            [
+                {
+                    "startTime": 1730960380373063000,
+                    "duration": 2103665000,
+                    "serviceName": "grpc-client",
+                    "name": "Greeter/SayHello",
+                    "spanId": "b0cdb06279ec4eae",
+                    "pSpanId": "9f9ed736ece13f1f",
+                    "nextSpanId": "f2b4a7bd8ae34934",
+                    "kind": 3,
+                    "code": 0,
+                    "attributes":
+                    {
+                        "net.peer.name": "springboot-grpc-server"
+                    }
+                }
+            ],
+            "children":
+            [
+                {
+                    "entrySpans":
+                    [
+                        {
+                            "startTime": 1730960382161000000,
+                            "duration": 229616000,
+                            "serviceName": "grpc-server",
+                            "name": "Greeter/SayHello",
+                            "spanId": "f2b4a7bd8ae34934",
+                            "pSpanId": "b0cdb06279ec4eae",
+                            "kind": 2,
+                            "code": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

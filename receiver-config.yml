@@ -1,0 +1,95 @@
+receiver:
+  grpc_port: 29090
+  http_port: 8080
+  center_api_server: localhost:8080
+  portal_address: http://portal-edge-svc:9600
+
+profile:
+  # Cache Sampled TraceIds(second)
+  traceid_cache_time: 6
+  open_window_sample: false
+  window_sample_num: 10
+
+promethues:
+  address: http://localhost:8428
+  # vm(VictoriaMetrics) or prom(Promethues)
+  storage: "vm"
+  # Number of different labels in a histogram. Clean them when it exceeds the limit.
+  cache_size: 5000
+  # Send API
+  # VM - /api/v1/import/prometheus
+  # Prom - /api/v1/write
+  send_api: "/api/v1/import/prometheus"
+  # Send Duration(Seond).
+  send_interval: 15
+  generate_client_metric: true
+  client_metric_with_url: true
+  open_api_metrics: true
+  latency_histogram_buckets: [5ms, 10ms, 20ms, 30ms, 50ms, 80ms, 100ms, 150ms, 200ms, 300ms, 400ms, 500ms, 800ms, 1200ms, 3s, 5s, 10s, 15s, 20s, 30s, 40s, 50s, 60s]
+
+clickhouse:
+  endpoint: "tcp://localhost:9000"
+  username: "default"
+  password: "clickhouse"
+  database: "originx"
+  replication: false
+  cluster: ""
+  # (default = 0): The data time-to-live in days, 0 means no ttl.
+  ttl_days: 7
+  ttl_config:
+    - tables: ["service_relationship", "service_client"]
+      ttl: 30
+    - tables: ["alert_event"]
+      ttl: 7
+  # (default = rand())
+  hash_config:
+    - tables: ["error_propagation", "error_report", "service_relationship", "onoff_metric", "slow_report", "span_trace"]
+      hash: "cityHash64(trace_id)"
+
+  # Wait for N seconds to flush datas to clickhouse.
+  flush_seconds: 5
+  export_service_client: false
+
+analyzer:
+  thread_count: 10
+  delay_duration: 5
+  retry_times: 3
+  retry_duration: 5
+  miss_top_time: 30
+  topology_period: 60
+  ratio_threshold: 20
+  segment_size: 40
+  # single / maxService / top3Service
+  mutate_node_mode: top3Service
+  trace_adress: "localhost:30956"
+  timeout: 10
+  get_detail_types: ["arms"]
+  # httpMethod / topUrl
+  http_parser: topUrl
+
+redis:
+  enable: false
+  address: "localhost:6379"
+  password: ""
+  expire_time: 300
+
+sample:
+  enable: false
+  # Set Min SampleRate - 1 / (2^N)
+  min_sample: 0
+  # Set Init SampleRate - 1 / (2^N)
+  init_sample: 4
+  # Set Max SampleRate - 1 / (2^N)
+  max_sample: 10
+  reset_sample_period: 30m
+
+k8s:
+  enable: true
+  api_type: meta_server
+  meta_server_config:
+    fetch_source:
+      source_addr: meta-server.originx:8080
+    querier:
+      query_server_port: 8082
+      is_single_cluster: true
+
