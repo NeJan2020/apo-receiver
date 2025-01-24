@@ -42,7 +42,7 @@ func (server *EbpfFIleServer) GetFile(ctx context.Context, request *model.FileRe
 	log.Println("get ebpf file:", filePath)
 	if os.IsNotExist(err) {
 		log.Println("fetch ebpf file from center server")
-		ebpfFileRep := getEbpfFileFromCenter(server.centerServerAddr, request, version)
+		ebpfFileRep := getEbpfFileFromCenter(server.portalAddress, server.centerServerAddr, request, version)
 		if len(ebpfFileRep.FileContent) != 0 {
 			var fp string
 			if version == EBPF_FETCH_API_V1 {
@@ -82,10 +82,10 @@ type Response struct {
 	FileContent string `json:"fileContent"`
 }
 
-func getEbpfFileFromCenter(centerServerAddr string, req *model.FileRequest, version EbpfFetchAPI) Response {
-	ebpfFileRep := getCenterEbpfFile(centerServerAddr, centerServerAddr, req, version)
+func getEbpfFileFromCenter(portalAddress string, centerServerAddr string, req *model.FileRequest, version EbpfFetchAPI) Response {
+	ebpfFileRep := getCenterEbpfFile(portalAddress, centerServerAddr, req, version)
 	if len(ebpfFileRep.FileContent) == 0 && version == EBPF_FETCH_API_V1 {
-		ebpfFileRep = getCenterEbpfFile(centerServerAddr, centerServerAddr, req, EBPF_FETCH_API)
+		ebpfFileRep = getCenterEbpfFile(portalAddress, centerServerAddr, req, EBPF_FETCH_API)
 	}
 	return ebpfFileRep
 }
