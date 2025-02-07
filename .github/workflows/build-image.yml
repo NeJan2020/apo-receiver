@@ -1,0 +1,69 @@
+name: Build Docker Image
+
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY_HOST: registry.cn-hangzhou.aliyuncs.com
+  CONTAINER_NAME: apo-collector
+  DEPLOYMENT_NAME: apo-collector
+  NAMESPACE: apo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      IMAGE_TAG_NAME: ${{ steps.build-image.outputs.IMAGE_TAG_NAME }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5
+
+    - name: Build Docker image
+      id: build-image
+      env:
+        BRANCH_NAME: ${{ github.ref_name }}
+        COMMIT_HASH: ${{ github.sha }}
+      run: |
+        DATE=$(date +"%Y%m%d%H%M%S%Z")
+        BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's#[^a-zA-Z0-9._-]#-#g')
+        IMAGE_TAG_NAME="${BRANCH_NAME}-${COMMIT_HASH::7}-${DATE}"
+        echo "IMAGE_TAG_NAME=$IMAGE_TAG_NAME" >> "$GITHUB_OUTPUT"
+
+        IMAGE_FULL_NAME="${{ env.REGISTRY_HOST }}/${{ secrets.REGISTRY_USERNAME }}/${{ env.CONTAINER_NAME }}:$IMAGE_TAG_NAME"
+        echo "IMAGE_FULL_NAME=$IMAGE_FULL_NAME" >> "$GITHUB_ENV"
+        docker build -t $IMAGE_FULL_NAME .
+
+    - name: Log in to container registry
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
+      with:
+        registry: ${{ env.REGISTRY_HOST }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Push to container registry
+      run: |
+        echo "IMAGE_FULL_NAME=$IMAGE_FULL_NAME"
+        docker push $IMAGE_FULL_NAME
+
+  deploy-dev:
+    runs-on: [self-hosted, dev]
+    needs: [build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Deploy to dev
+      env: 
+        IMAGE_TAG_NAME: ${{ needs.build.outputs.IMAGE_TAG_NAME }}
+      run: |
+        IMAGE_FULL_NAME="${{ env.REGISTRY_HOST }}/${{ secrets.REGISTRY_USERNAME }}/${{ env.CONTAINER_NAME }}:$IMAGE_TAG_NAME"
+        echo "IMAGE_FULL_NAME=$IMAGE_FULL_NAME"
+        export KUBECONFIG="/root/.kube/config"
+        kubectl set image deployment ${{ env.DEPLOYMENT_NAME }} ${{ env.CONTAINER_NAME }}=$IMAGE_FULL_NAME -n ${{ env.NAMESPACE }}
