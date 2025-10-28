@@ -55,6 +55,8 @@ clickhouse:
   flush_seconds: 5
   export_service_client: false
 
+dataplane:
+  address: apo-dataplane-svc:8089
 analyzer:
   thread_count: 10
   delay_duration: 5
