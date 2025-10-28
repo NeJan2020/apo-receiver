@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type DataplaneClient struct {
@@ -20,6 +21,10 @@ const (
 )
 
 func NewClient(address string) *DataplaneClient {
+	if !strings.HasPrefix(address, "http://") && !strings.HasPrefix(address, "https://") {
+		address = "http://" + address
+	}
+
 	return &DataplaneClient{
 		Address: address,
 		client:  &http.Client{},
