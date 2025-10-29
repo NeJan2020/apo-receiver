@@ -8,7 +8,6 @@ import (
 
 	apmmodel "github.com/CloudDetail/apo-module/apm/model/v1"
 	"github.com/CloudDetail/apo-module/model/v1"
-	amodel "github.com/CloudDetail/apo-module/model/v1"
 )
 
 func (c *DataplaneClient) QueryTrace(ctx context.Context, req *QueryTraceSpansRequest) (*QueryTracesResponse, error) {
@@ -16,7 +15,7 @@ func (c *DataplaneClient) QueryTrace(ctx context.Context, req *QueryTraceSpansRe
 	if err != nil {
 		return nil, err
 	}
-	var dr DataplnaeTraceResponse
+	var dr DataplaneTraceResponse
 	err = json.NewDecoder(resp.Body).Decode(&dr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse completion response, err: %w", err)
@@ -36,7 +35,7 @@ func (c *DataplaneClient) QueryTrace(ctx context.Context, req *QueryTraceSpansRe
 	return nil, fmt.Errorf("trace not found")
 }
 
-type DataplnaeTraceResponse struct {
+type DataplaneTraceResponse struct {
 	Success bool                   `json:"success"`
 	Data    []*QueryTracesResponse `json:"data"`
 }
@@ -77,17 +76,17 @@ type OtelTrace struct {
 }
 
 type OtelSpan struct {
-	StartTime   uint64              `json:"startTime"` // us
-	Duration    uint64              `json:"duration"`  // us
-	ServiceName string              `json:"serviceName"`
-	Name        string              `json:"name"`
-	SpanId      string              `json:"spanId,omitempty"`
-	TraceId     string              `json:"-"`
-	PSpanId     string              `json:"parentSpanId,omitempty"`
-	Kind        OtelSpanKind        `json:"spanKind"` // unspecified|internal|server|client|consumer|providerw
-	IsError     bool                `json:"isError"`
-	Attributes  map[string]string   `json:"attributes"`
-	Exceptions  []*amodel.Exception `json:"exceptions,omitempty"`
+	StartTime   uint64             `json:"startTime"` // us
+	Duration    uint64             `json:"duration"`  // us
+	ServiceName string             `json:"serviceName"`
+	Name        string             `json:"name"`
+	SpanId      string             `json:"spanId,omitempty"`
+	TraceId     string             `json:"-"`
+	PSpanId     string             `json:"parentSpanId,omitempty"`
+	Kind        OtelSpanKind       `json:"spanKind"` // unspecified|internal|server|client|consumer|providerw
+	IsError     bool               `json:"isError"`
+	Attributes  map[string]string  `json:"attributes"`
+	Exceptions  []*model.Exception `json:"exceptions,omitempty"`
 }
 
 type OtelSpanKind string
