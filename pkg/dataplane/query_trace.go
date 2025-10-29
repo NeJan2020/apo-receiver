@@ -116,9 +116,9 @@ func PickClientCall(resp *QueryTracesResponse, spanId string) []*model.ApmClient
 		var serviceSpan *OtelSpan
 
 		for _, span := range spans {
-			childs, find := childSpans[span.PSpanId]
+			children, find := childSpans[span.PSpanId]
 			if find {
-				childSpans[span.PSpanId] = append(childs, span)
+				childSpans[span.PSpanId] = append(children, span)
 			} else {
 				childSpans[span.PSpanId] = []*OtelSpan{span}
 			}
