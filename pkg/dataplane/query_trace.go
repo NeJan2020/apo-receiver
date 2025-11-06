@@ -15,6 +15,9 @@ func (c *DataplaneClient) QueryTrace(ctx context.Context, req *QueryTraceSpansRe
 	if err != nil {
 		return nil, err
 	}
+
+	defer resp.Body.Close()
+
 	var dr DataplaneTraceResponse
 	err = json.NewDecoder(resp.Body).Decode(&dr)
 	if err != nil {

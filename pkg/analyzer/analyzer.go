@@ -722,7 +722,7 @@ func (analyzer *ReportAnalyzer) queryServices(ctx context.Context, apmType strin
 	var serviceNodes []*apmmodel.OtelServiceNode
 	var err error
 	if global.DATAPLANE_CLIENT != nil {
-		startTime := (int64(rootTrace.StartTime) - int64(3*time.Second)) / 1e3 // TODO check time unit
+		startTime := (int64(rootTrace.StartTime) - int64(3*time.Second)) / 1e3
 		endTime := (int64(rootTrace.EndTime) + int64(3*time.Second)) / 1e3
 
 		var resp *dataplane.QueryTracesResponse
